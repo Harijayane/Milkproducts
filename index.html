@@ -1,12 +1,1468 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pure Dairy Farm</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maruthi Natural Products</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* Cart Icon in Header */
+        .cart-icon-container {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .cart-icon-container:hover {
+            transform: scale(1.1);
+        }
+
+        .cart-icon {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Navigation */
+        nav {
+            background: #2c5f2d;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover {
+            color: #97bc62;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(44, 95, 45, 0.7), rgba(44, 95, 45, 0.7)),
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%2397bc62" width="1200" height="400"/><path fill="%23fff" opacity="0.1" d="M0,200 Q300,100 600,200 T1200,200 L1200,400 L0,400 Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Section */
+        section {
+            padding: 4rem 0;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c5f2d;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: inline-block;
+        }
+
+        .product-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .product-card h3 {
+            color: #2c5f2d;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-card p {
+            color: #666;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* About Section */
+        #about {
+            background: #f8f9fa;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-card h3 {
+            color: #2c5f2d;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .contact-card p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .contact-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #97bc62;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c5f2d;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            font-size: 1rem;
+        }
+
+        /* Modal/Popup Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s;
+            overflow: hidden;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-header .product-icon {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            cursor: default;
+        }
+
+        .modal-header .product-icon:hover {
+            transform: none;
+        }
+
+        .modal-header h3 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .price-tag {
+            background: #2c5f2d;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-tag span {
+            font-size: 1rem;
+            opacity: 0.9;
+            display: block;
+            margin-top: 0.3rem;
+        }
+
+        .item-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .item-list li {
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #97bc62;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: #2c5f2d;
+        }
+
+        .item-price {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Quantity Counter */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qty-btn {
+            background: #2c5f2d;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .qty-btn:hover {
+            background: #1f4420;
+        }
+
+        .qty-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .qty-display {
+            min-width: 30px;
+            text-align: center;
+            font-weight: bold;
+            color: #2c5f2d;
+        }
+
+        .close-btn {
+            color: white;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            width: 35px;
+            height: 35px;
+            line-height: 30px;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Add to Cart Button */
+        .add-to-cart-btn {
+            background: #2c5f2d;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(44, 95, 45, 0.3);
+            margin-top: 1rem;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #1f4420;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 95, 45, 0.4);
+        }
+
+        /* WhatsApp Order Button */
+        .order-btn {
+            background: #25D366;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            margin-top: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .order-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Cart Summary */
+        .cart-summary {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            gap: 1rem;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-total {
+            background: #2c5f2d;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .clear-cart-btn {
+            background: #ef4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            transition: background 0.3s;
+        }
+
+        .clear-cart-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            background: #128C7E;
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5);
+        }
+
+        .whatsapp-float::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #25D366;
+            animation: pulse 2s infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Chatbot */
+        .chatbot-float {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #2c5f2d;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 20px rgba(44, 95, 45, 0.4);
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .chatbot-float:hover {
+            background: #1f4420;
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(44, 95, 45, 0.5);
+        }
+
+        .chatbot-window {
+            position: fixed;
+            bottom: 100px;
+            left: 30px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, #2c5f2d 0%, #97bc62 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chatbot-header h4 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .chatbot-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .chat-message {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-message.bot {
+            align-items: flex-start;
+        }
+
+        .chat-message.user {
+            align-items: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 15px;
+            word-wrap: break-word;
+        }
+
+        .message-bubble.bot {
+            background: #2c5f2d;
+            color: white;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-bubble.user {
+            background: #97bc62;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .chat-options {
+            padding: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .chat-option-btn {
+            background: white;
+            border: 2px solid #2c5f2d;
+            color: #2c5f2d;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .chat-option-btn:hover {
+            background: #2c5f2d;
+            color: white;
+        }
+
+        .chatbot-input {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .chatbot-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .chatbot-input button {
+            background: #2c5f2d;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .chatbot-input button:hover {
+            background: #1f4420;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+
+            .cart-icon-container {
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .chatbot-window {
+                left: 10px;
+                right: 10px;
+                width: auto;
+                bottom: 100px;
+            }
+
+            .chatbot-float {
+                left: 15px;
+                bottom: 20px;
+            }
+
+            .whatsapp-float {
+                right: 15px;
+                bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="cart-icon-container" onclick="openCart()">
+            <div class="cart-icon">
+                🛒
+                <span class="cart-badge" id="cartBadge">0</span>
+            </div>
+        </div>
+        <div class="header-content">
+            <h1>🐄 Maruthi Natural Products</h1>
+            <p>Pure. Fresh. Natural Dairy Products</p>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#products">Products</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <h2>Welcome to Maruthi Natural Products</h2>
+            <p>Experience the goodness of farm-fresh dairy products delivered with care and quality you can trust.</p>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products">
+        <div class="container">
+            <h2>Our Products</h2>
+            <p style="text-align: center; color: #166534; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 2rem; padding: 0.5rem 1rem; background: #dcfce7; border-left: 4px solid #22c55e; display: inline-block; border-radius: 0 8px 8px 0;">
+                → Click icons for pricing details
+            </p>
+            <div class="products-grid">
+                <!-- Cow Milk -->
+                <div class="product-card">
+                    <div class="product-icon" onclick="openModal('milk')">🥛</div>
+                    <h3>Fresh Cow Milk</h3>
+                    <p>100% pure and fresh cow milk, rich in nutrients and delivered daily. Perfect for your family's health and wellness.</p>
+                </div>
+
+                <!-- Paneer -->
+                <div class="product-card">
+                    <div class="product-icon" onclick="openModal('paneer')">🧈</div>
+                    <h3>Premium Paneer</h3>
+                    <p>Soft, fresh homemade paneer made from pure cow milk. Ideal for cooking delicious and nutritious meals.</p>
+                </div>
+
+                <!-- Ghee -->
+                <div class="product-card">
+                    <div class="product-icon" onclick="openModal('ghee')">🍯</div>
+                    <h3>Pure Desi Ghee</h3>
+                    <p>Traditional desi ghee prepared using authentic methods. Rich aroma and taste that enhances every dish.</p>
+                </div>
+
+                <!-- Breeze -->
+                <div class="product-card">
+                    <div class="product-icon" onclick="openModal('breeze')">❄️</div>
+                    <h3>Breeze - Flavored Milk</h3>
+                    <p>Feel Fresh in Every Sip</p>
+                </div>
+
+                <!-- Kulfi -->
+                <div class="product-card">
+                    <div class="product-icon" onclick="openModal('kulfi')">🍦</div>
+                    <h3>Kulfi</h3>
+                    <p>Cool Creamy Delightful</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2>About Maruthi Natural Products</h2>
+            <div class="about-content">
+                <p>At Maruthi Natural Products, we are passionate about bringing you the finest dairy products straight from farm to your table. Our commitment to quality, freshness, and traditional methods ensures that every product we deliver meets the highest standards.</p>
+                <p style="margin-top: 1.5rem;">We believe in natural farming practices, which reflects in the pure, wholesome products we create. Join our family and experience the difference of truly fresh dairy!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Get In Touch</h2>
+            <div class="contact-info">
+                <div class="contact-card" style="cursor: pointer;" onclick="callUs()">
+                    <div class="contact-icon">📞</div>
+                    <h3>Phone</h3>
+                    <p>+91 9894803146</p>
+                    <p style="font-size: 0.9rem; color: #97bc62; margin-top: 0.5rem;">Click to call</p>
+                </div>
+
+                <div class="contact-card" style="cursor: pointer;" onclick="emailUs()">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <p>dmuraliraj@yahoo.co.in</p>
+                    <p style="font-size: 0.9rem; color: #97bc62; margin-top: 0.5rem;">Click to email</p>
+                </div>
+
+                <div class="contact-card">
+                    <div class="contact-icon">📍</div>
+                    <h3>Location</h3>
+                    <p>Pondicherry<br>India</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot Float Button -->
+    <div class="chatbot-float" onclick="toggleChatbot()">
+        💬
+    </div>
+
+    <!-- Chatbot Window -->
+    <div class="chatbot-window" id="chatbotWindow">
+        <div class="chatbot-header">
+            <h4>🐄 Maruthi Assistant</h4>
+            <button class="chatbot-close" onclick="toggleChatbot()">×</button>
+        </div>
+        <div class="chatbot-messages" id="chatMessages">
+            <div class="chat-message bot">
+                <div class="message-bubble bot">
+                    Hi! Welcome to Maruthi Natural Products! 👋<br>
+                    How can I help you today?
+                </div>
+            </div>
+            <div class="chat-options" id="chatOptions">
+                <button class="chat-option-btn" onclick="askBot('products')">View Products</button>
+                <button class="chat-option-btn" onclick="askBot('prices')">Check Prices</button>
+                <button class="chat-option-btn" onclick="askBot('delivery')">Delivery Info</button>
+                <button class="chat-option-btn" onclick="askBot('hours')">Business Hours</button>
+            </div>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="handleChatEnter(event)">
+            <button onclick="sendChatMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/919894803146?text=Hi%20Maruthi%20Natural%20Products!%20I%27d%20like%20to%20inquire%20about%20your%20products." 
+       class="whatsapp-float" 
+       target="_blank"
+       title="Chat with us on WhatsApp">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+    </a>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Maruthi Natural Products. All rights reserved.</p>
+            <p style="margin-top: 0.5rem;">Fresh. Pure. Natural.</p>
+        </div>
+    </footer>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+                <div class="product-icon" id="modalIcon"></div>
+                <h3 id="modalTitle"></h3>
+            </div>
+            <div class="modal-body">
+                <div class="price-tag" id="modalPrice"></div>
+                <ul class="item-list" id="modalItems"></ul>
+                <center>
+                    <button class="add-to-cart-btn" onclick="addSelectedToCart()">
+                        🛒 Add to Cart
+                    </button>
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeCart()">&times;</button>
+                <div class="product-icon">🛒</div>
+                <h3>Your Cart</h3>
+            </div>
+            <div class="modal-body">
+                <div id="cartContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Product data with prices and items
+        const products = {
+            milk: {
+                icon: '🥛',
+                title: 'Fresh Cow Milk',
+                basePrice: '₹60 per liter',
+                items: [
+                    { id: 'milk-500ml', name: '500ml Packet', price: 30 },
+                    { id: 'milk-1l', name: '1L Packet', price: 60 }
+                ]
+            },
+            paneer: {
+                icon: '🧈',
+                title: 'Premium Paneer',
+                basePrice: '₹600 per kg',
+                items: [
+                    { id: 'paneer-250g', name: '250g Pack', price: 150 },
+                    { id: 'paneer-500g', name: '500g Pack', price: 300 },
+                    { id: 'paneer-1kg', name: '1kg Pack', price: 600 }
+                ]
+            },
+            ghee: {
+                icon: '🍯',
+                title: 'Pure Desi Ghee',
+                basePrice: '₹1100 per L',
+                items: [
+                    { id: 'ghee-250g', name: '250g Bottle', price: 225 },
+                    { id: 'ghee-500ml', name: '500ml Bottle', price: 550 },
+                    { id: 'ghee-1l', name: '1L Bottle', price: 1100 }
+                ]
+            },
+            breeze: {
+                icon: '❄️',
+                title: 'Breeze - Flavored Milk',
+                basePrice: '₹35 per bottle',
+                items: [
+                    { id: 'breeze-rose', name: 'Rose Milk (250ml)', price: 35 },
+                    { id: 'breeze-badam', name: 'Badam Milk (250ml)', price: 35 },
+                    { id: 'breeze-pista', name: 'Pista Milk (250ml)', price: 35 },
+                    { id: 'breeze-choco', name: 'Chocolate Milk (250ml)', price: 35 }
+                ]
+            },
+            kulfi: {
+                icon: '🍦',
+                title: 'Traditional Kulfi',
+                basePrice: '₹50 per piece',
+                items: [
+                    { id: 'kulfi-single', name: 'Single Kulfi', price: 50 },
+                    { id: 'kulfi-5pack', name: 'Kulfi (Pack of 5)', price: 230 },
+                    { id: 'kulfi-10pack', name: 'Kulfi (Pack of 10)', price: 440 }
+                ]
+            }
+        };
+
+        let currentProduct = '';
+        let itemQuantities = {};
+        let cart = {};
+
+        function openModal(productKey) {
+            currentProduct = productKey;
+            const product = products[productKey];
+            itemQuantities = {};
+            
+            // Update modal content
+            document.getElementById('modalIcon').textContent = product.icon;
+            document.getElementById('modalTitle').textContent = product.title;
+            document.getElementById('modalPrice').innerHTML = product.basePrice + '<span>Starting Price</span>';
+            
+            // Update items list with quantity controls
+            const itemsList = document.getElementById('modalItems');
+            itemsList.innerHTML = '';
+            product.items.forEach(item => {
+                itemQuantities[item.id] = 0;
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="item-info">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-price">₹${item.price}</span>
+                    </div>
+                    <div class="quantity-control">
+                        <button class="qty-btn" onclick="decrementQty('${item.id}')">−</button>
+                        <span class="qty-display" id="qty-${item.id}">0</span>
+                        <button class="qty-btn" onclick="incrementQty('${item.id}')">+</button>
+                    </div>
+                `;
+                itemsList.appendChild(li);
+            });
+            
+            // Show modal
+            document.getElementById('productModal').style.display = 'block';
+        }
+
+        function incrementQty(itemId) {
+            itemQuantities[itemId]++;
+            document.getElementById('qty-' + itemId).textContent = itemQuantities[itemId];
+        }
+
+        function decrementQty(itemId) {
+            if (itemQuantities[itemId] > 0) {
+                itemQuantities[itemId]--;
+                document.getElementById('qty-' + itemId).textContent = itemQuantities[itemId];
+            }
+        }
+
+        function addSelectedToCart() {
+            const product = products[currentProduct];
+            let itemsAdded = 0;
+
+            product.items.forEach(item => {
+                const qty = itemQuantities[item.id];
+                if (qty > 0) {
+                    if (cart[item.id]) {
+                        cart[item.id].quantity += qty;
+                    } else {
+                        cart[item.id] = {
+                            name: item.name,
+                            price: item.price,
+                            quantity: qty,
+                            productIcon: product.icon
+                        };
+                    }
+                    itemsAdded++;
+                }
+            });
+
+            if (itemsAdded > 0) {
+                updateCartBadge();
+                closeModal();
+                alert('Items added to cart! 🛒');
+            } else {
+                alert('Please select at least one item');
+            }
+        }
+
+        function updateCartBadge() {
+            const totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartBadge').textContent = totalItems;
+        }
+
+        function openCart() {
+            const cartContent = document.getElementById('cartContent');
+            
+            if (Object.keys(cart).length === 0) {
+                cartContent.innerHTML = '<div class="empty-cart">Your cart is empty 🛒</div>';
+            } else {
+                let total = 0;
+                let cartHTML = '<button class="clear-cart-btn" id="clearCartBtn">Clear Cart</button>';
+                cartHTML += '<div class="cart-summary">';
+                
+                for (const itemId in cart) {
+                    const item = cart[itemId];
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    
+                    cartHTML += `
+                        <div class="cart-item">
+                            <div style="flex: 1;">
+                                <strong>${item.productIcon} ${item.name}</strong>
+                                <div style="font-size: 0.9rem; color: #666; margin-top: 0.3rem;">
+                                    ₹${item.price} each
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div class="quantity-control">
+                                    <button class="qty-btn cart-dec-btn" data-item="${itemId}">−</button>
+                                    <span class="qty-display">${item.quantity}</span>
+                                    <button class="qty-btn cart-inc-btn" data-item="${itemId}">+</button>
+                                </div>
+                                <div style="min-width: 80px; text-align: right;">
+                                    <strong>₹${itemTotal}</strong>
+                                </div>
+                                <button class="qty-btn cart-remove-btn" data-item="${itemId}" style="background: #ef4444;">×</button>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                cartHTML += '</div>';
+                cartHTML += `<div class="cart-total">Total: ₹${total}</div>`;
+                cartHTML += `
+                    <a href="#" class="order-btn" id="whatsappOrderBtn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                        Order on WhatsApp
+                    </a>
+                `;
+                
+                cartContent.innerHTML = cartHTML;
+                
+                // Add event listeners after HTML is inserted
+                document.getElementById('clearCartBtn').addEventListener('click', clearCartFromView);
+                document.getElementById('whatsappOrderBtn').addEventListener('click', orderOnWhatsApp);
+                
+                // Add listeners for increment/decrement/remove buttons
+                document.querySelectorAll('.cart-inc-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        incrementCartQty(this.getAttribute('data-item'));
+                    });
+                });
+                
+                document.querySelectorAll('.cart-dec-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        decrementCartQty(this.getAttribute('data-item'));
+                    });
+                });
+                
+                document.querySelectorAll('.cart-remove-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        removeFromCart(this.getAttribute('data-item'));
+                    });
+                });
+            }
+            
+            document.getElementById('cartModal').style.display = 'block';
+        }
+
+        function incrementCartQty(itemId) {
+            if (cart[itemId]) {
+                cart[itemId].quantity++;
+                updateCartBadge();
+                openCart(); // Refresh cart display
+            }
+        }
+
+        function decrementCartQty(itemId) {
+            if (cart[itemId]) {
+                if (cart[itemId].quantity > 1) {
+                    cart[itemId].quantity--;
+                    updateCartBadge();
+                    openCart(); // Refresh cart display
+                } else {
+                    removeFromCart(itemId);
+                }
+            }
+        }
+
+        function removeFromCart(itemId) {
+            if (confirm('Remove this item from cart?')) {
+                delete cart[itemId];
+                updateCartBadge();
+                openCart(); // Refresh cart display
+            }
+        }
+
+        function clearCartFromView() {
+            if (confirm('Are you sure you want to clear your entire cart?')) {
+                cart = {};
+                updateCartBadge();
+                openCart();
+            }
+        }
+
+        function orderOnWhatsApp(event) {
+            event.preventDefault();
+            
+            let message = '*Order from Maruthi Natural Products*\n\n';
+            let total = 0;
+            
+            for (const itemId in cart) {
+                const item = cart[itemId];
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                message += `${item.productIcon} *${item.name}*\n`;
+                message += `   Qty: ${item.quantity} × ₹${item.price} = ₹${itemTotal}\n\n`;
+            }
+            
+            message += `*Total Amount: ₹${total}*\n\n`;
+            message += 'Please confirm my order. Thank you!';
+            
+            const phoneNumber = '919894803146';
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const productModal = document.getElementById('productModal');
+            const cartModal = document.getElementById('cartModal');
+            if (event.target == productModal) {
+                closeModal();
+            }
+            if (event.target == cartModal) {
+                closeCart();
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                closeCart();
+            }
+        });
+
+        // Call and Email functions
+        function callUs() {
+            const phoneNumber = '+919894803146';
+            if (confirm('Do you want to call Maruthi Natural Products?\n\n' + phoneNumber)) {
+                window.location.href = 'tel:' + phoneNumber;
+            }
+        }
+
+        function emailUs() {
+            const email = 'dmuraliraj@yahoo.co.in';
+            const subject = 'Inquiry about Maruthi Natural Products';
+            const body = 'Hi Maruthi Natural Products,\n\nI would like to inquire about your products.\n\nThank you!';
+            
+            if (confirm('Do you want to send an email to:\n\n' + email)) {
+                window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            }
+        }
+
+        // Chatbot functions
+        function toggleChatbot() {
+            const chatWindow = document.getElementById('chatbotWindow');
+            if (chatWindow.style.display === 'flex') {
+                chatWindow.style.display = 'none';
+            } else {
+                chatWindow.style.display = 'flex';
+                scrollChatToBottom();
+            }
+        }
+
+        function scrollChatToBottom() {
+            const chatMessages = document.getElementById('chatMessages');
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 100);
+        }
+
+        function addChatMessage(message, isBot = true) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${isBot ? 'bot' : 'user'}`;
+            messageDiv.innerHTML = `
+                <div class="message-bubble ${isBot ? 'bot' : 'user'}">
+                    ${message}
+                </div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            scrollChatToBottom();
+        }
+
+        function askBot(topic) {
+            // Hide options
+            document.getElementById('chatOptions').style.display = 'none';
+            
+            let userMessage = '';
+            let botResponse = '';
+            
+            switch(topic) {
+                case 'products':
+                    userMessage = 'What products do you offer?';
+                    botResponse = 'We offer:<br>🥛 Fresh Cow Milk<br>🧈 Premium Paneer<br>🍯 Pure Desi Ghee<br>❄️ Breeze Flavored Milk (Rose, Badam, Pista, Chocolate)<br>🍦 Traditional Kulfi<br><br>Click on product icons on our website to see prices!';
+                    break;
+                case 'prices':
+                    userMessage = 'What are your prices?';
+                    botResponse = 'Our prices:<br>🥛 Milk: ₹30-60<br>🧈 Paneer: ₹150-600<br>🍯 Ghee: ₹225-1100<br>❄️ Breeze: ₹35/bottle<br>🍦 Kulfi: ₹50-440<br><br>Click product icons for detailed pricing!';
+                    break;
+                case 'delivery':
+                    userMessage = 'Do you deliver?';
+                    botResponse = 'Yes! We deliver fresh dairy products in Pondicherry area. For delivery inquiries, please contact us:<br>📞 +91 9894803146<br>📧 dmuraliraj@yahoo.co.in<br><br>Or order via WhatsApp for fastest service! 💚';
+                    break;
+                case 'hours':
+                    userMessage = 'What are your business hours?';
+                    botResponse = 'We\'re here to serve you!<br>🕐 Mon-Sun: 6:00 AM - 9:00 PM<br><br>Fresh milk delivered daily! Contact us anytime via WhatsApp for orders.';
+                    break;
+                default:
+                    userMessage = topic;
+                    botResponse = 'Thank you for your message! For specific inquiries, please:<br>📞 Call: +91 9894803146<br>📧 Email: dmuraliraj@yahoo.co.in<br>💬 WhatsApp: Click the green button!';
+            }
+            
+            addChatMessage(userMessage, false);
+            
+            setTimeout(() => {
+                addChatMessage(botResponse, true);
+                showChatOptions();
+            }, 500);
+        }
+
+        function showChatOptions() {
+            setTimeout(() => {
+                const chatMessages = document.getElementById('chatMessages');
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'chat-options';
+                optionsDiv.innerHTML = `
+                    <button class="chat-option-btn" onclick="askBot('products')">Products</button>
+                    <button class="chat-option-btn" onclick="askBot('prices')">Prices</button>
+                    <button class="chat-option-btn" onclick="askBot('delivery')">Delivery</button>
+                    <button class="chat-option-btn" onclick="openCart(); toggleChatbot();">View Cart</button>
+                `;
+                chatMessages.appendChild(optionsDiv);
+                scrollChatToBottom();
+            }, 500);
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addChatMessage(message, false);
+                input.value = '';
+                
+                // Simple bot response
+                setTimeout(() => {
+                    let response = '';
+                    const lowerMsg = message.toLowerCase();
+                    
+                    if (lowerMsg.includes('price') || lowerMsg.includes('cost')) {
+                        response = 'Our prices range from ₹30 to ₹1100 depending on the product. Click on any product icon to see detailed pricing!';
+                    } else if (lowerMsg.includes('delivery') || lowerMsg.includes('deliver')) {
+                        response = 'Yes, we deliver in Pondicherry! Contact us at +91 9894803146 or order via WhatsApp for fastest service.';
+                    } else if (lowerMsg.includes('hour') || lowerMsg.includes('time') || lowerMsg.includes('open')) {
+                        response = 'We\'re open Mon-Sun, 6:00 AM - 9:00 PM. Fresh dairy delivered daily!';
+                    } else if (lowerMsg.includes('product') || lowerMsg.includes('sell') || lowerMsg.includes('offer')) {
+                        response = 'We offer Fresh Cow Milk, Paneer, Ghee, Breeze Flavored Milk, and Kulfi. Check our Products section!';
+                    } else {
+                        response = 'Thank you for your message! For more details, please call us at +91 9894803146 or click the WhatsApp button to order.';
+                    }
+                    
+                    addChatMessage(response, true);
+                    showChatOptions();
+                }, 500);
+            }
+        }
+
+        function handleChatEnter(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+    </script>
+</body>
 </html>
