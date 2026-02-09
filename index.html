@@ -1260,11 +1260,11 @@
         }
 
         function removeFromCart(itemId) {
-            if (confirm('Remove this item from cart?')) {
+            //if (confirm('Remove this item from cart?')) {
                 delete cart[itemId];
                 updateCartBadge();
                 openCart(); // Refresh cart display
-            }
+            //}
         }
 
         function clearCartFromView() {
