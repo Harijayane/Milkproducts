@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Maruthi Natural Products</title>
-    <!-- Add these meta tags RIGHT AFTER the <title> tag in your HTML -->
-
+    
 <!-- Basic SEO -->
 <meta name="description" content="Maruthi Natural Products - Fresh cow milk, premium paneer, pure desi ghee, kulfi, and flavored milk delivery in Pondicherry. 100% natural dairy products from farm to your table. Order via WhatsApp for quick delivery!">
 <meta name="keywords" content="fresh milk Pondicherry, paneer delivery Pondicherry, desi ghee Pondicherry, dairy products Pondicherry, kulfi Pondicherry, cow milk delivery, natural dairy, Maruthi dairy, farm fresh milk, breeze flavored milk">
@@ -460,52 +459,77 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Contact Section - Responsive Grid */
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+        /* Contact Section - Compact Design */
+        #contact {
+            padding: clamp(2rem, 4vw, 3rem) 0;
+            background: var(--bg-light);
+        }
+
+        #contact h2 {
+            margin-bottom: clamp(1.5rem, 3vw, 2rem);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        .contact-compact {
+            display: flex;
+            justify-content: center;
             gap: clamp(1rem, 3vw, 2rem);
-            max-width: 900px;
+            flex-wrap: wrap;
+            max-width: 800px;
             margin: 0 auto;
         }
 
-        .contact-card {
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
             background: white;
-            padding: clamp(1.5rem, 3vw, 2rem);
-            border-radius: clamp(10px, 2vw, 15px);
-            text-align: center;
-            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
             cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: var(--text);
+            border: 2px solid transparent;
         }
 
-        .contact-card:hover {
-            transform: translateY(-5px);
+        .contact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+            border-color: var(--secondary);
         }
 
-        .contact-card h3 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+        .contact-icon-small {
+            width: clamp(35px, 6vw, 45px);
+            height: clamp(35px, 6vw, 45px);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            flex-shrink: 0;
         }
 
-        .contact-card p {
+        .contact-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .contact-label {
+            font-size: clamp(0.7rem, 1.5vw, 0.8rem);
             color: #666;
-            font-size: clamp(0.95rem, 2vw, 1.1rem);
-            word-break: break-word;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
-        .contact-icon {
-            font-size: clamp(2.5rem, 5vw, 3rem);
-            margin-bottom: 1rem;
-            color: var(--secondary);
-            line-height: 1;
-        }
-
-        .click-text {
-            font-size: 0.9rem;
-            color: var(--secondary);
-            margin-top: 0.5rem;
+        .contact-value {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            color: var(--primary);
+            font-weight: 600;
         }
 
         /* Footer */
@@ -1041,14 +1065,8 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .contact-info {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .contact-info .contact-card:last-child {
-                grid-column: 1 / -1;
-                max-width: 50%;
-                margin: 0 auto;
+            .contact-compact {
+                gap: 1rem;
             }
         }
 
@@ -1064,7 +1082,18 @@
         }
 
         /* Small Mobile Screens */
-        @media (max-width: 380px) {
+        @media (max-width: 480px) {
+            .contact-compact {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contact-item {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+            
             .item-list li {
                 flex-direction: column;
                 align-items: stretch;
@@ -1232,29 +1261,33 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact Section - Compact -->
     <section id="contact">
         <div class="container">
             <h2>Get In Touch</h2>
-            <div class="contact-info">
-                <div class="contact-card" onclick="callUs()">
-                    <div class="contact-icon">📞</div>
-                    <h3>Phone</h3>
-                    <p>+91 9894803146</p>
-                    <p class="click-text">Tap to call</p>
-                </div>
+            <div class="contact-compact">
+                <a href="tel:+919894803146" class="contact-item" onclick="event.preventDefault(); callUs();">
+                    <div class="contact-icon-small">📞</div>
+                    <div class="contact-text">
+                        <span class="contact-label">Call Us</span>
+                        <span class="contact-value">+91 9894803146</span>
+                    </div>
+                </a>
 
-                <div class="contact-card" onclick="emailUs()">
-                    <div class="contact-icon">📧</div>
-                    <h3>Email</h3>
-                    <p>dmuraliraj@yahoo.co.in</p>
-                    <p class="click-text">Tap to email</p>
-                </div>
+                <a href="mailto:dmuraliraj@yahoo.co.in" class="contact-item" onclick="event.preventDefault(); emailUs();">
+                    <div class="contact-icon-small">✉️</div>
+                    <div class="contact-text">
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value">dmuraliraj@yahoo.co.in</span>
+                    </div>
+                </a>
 
-                <div class="contact-card">
-                    <div class="contact-icon">📍</div>
-                    <h3>Location</h3>
-                    <p>Pondicherry<br>India</p>
+                <div class="contact-item">
+                    <div class="contact-icon-small">📍</div>
+                    <div class="contact-text">
+                        <span class="contact-label">Location</span>
+                        <span class="contact-value">Pondicherry, India</span>
+                    </div>
                 </div>
             </div>
         </div>
